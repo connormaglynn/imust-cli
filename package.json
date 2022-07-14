@@ -11,7 +11,8 @@
     "create": "npm run build && npm run test",
     "build": "tsc -p .",
     "local": "npm run build && sudo npm i -g && ineedto",
-    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install"
+    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
+    "test": "echo \"No tests specidied - procceed\" && exit 0"
   },
   "repository": {
     "type": "git",
