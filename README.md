@@ -6,5 +6,5 @@ a command line tool for developers
 ```bash
 $ npm install
 $ npm run local
-$ ineedto [options]
+$ imust [options]
 ```

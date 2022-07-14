@@ -1,16 +1,16 @@
 {
-  "name": "developer-cli",
-  "version": "0.0.1",
+  "name": "imust",
+  "version": "0.0.1-beta.3",
   "description": "a command line tool for developers",
   "main": "./lib/index.js",
   "bin": {
-    "ineedto": "./lib/index.js"
+    "imust": "./lib/index.js"
   },
   "scripts": {
     "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts hello",
     "create": "npm run build && npm run test",
     "build": "tsc -p .",
-    "local": "npm run build && sudo npm i -g && ineedto",
+    "local": "npm run build && sudo npm i -g && imust",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
     "test": "echo \"No tests specidied - procceed\" && exit 0"
   },
