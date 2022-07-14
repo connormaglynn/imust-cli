@@ -1,6 +1,6 @@
 {
   "name": "imust",
-  "version": "0.0.1-beta.3",
+  "version": "0.0.1-beta.4",
   "description": "a command line tool for developers",
   "main": "./lib/index.js",
   "bin": {
@@ -12,14 +12,14 @@
     "build": "tsc -p .",
     "local": "npm run build && sudo npm i -g && imust",
     "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
-    "test": "echo \"No tests specidied - procceed\" && exit 0"
+    "test": "echo \"No tests specified - procceed\" && exit 0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/connormaglynn/developer-cli.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "connormaglynn",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/connormaglynn/developer-cli/issues"
