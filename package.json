@@ -4,15 +4,13 @@
   "description": "a command line tool for developers",
   "main": "./lib/index.js",
   "bin": {
-    "imust": "./lib/index.js"
+    "imust": "./build/index.js"
   },
   "scripts": {
-    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts hello",
-    "create": "npm run build && npm run test",
-    "build": "tsc -p .",
-    "local": "npm run build && sudo npm i -g && imust",
+    "build": "tsc",
     "lint": "eslint .",
-    "refresh": "rm -rf ./node_modules ./package-lock.json && npm install",
+    "local": "npm run build && sudo npm i -g && imust",
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts hello",
     "test": "jest"
   },
   "repository": {
