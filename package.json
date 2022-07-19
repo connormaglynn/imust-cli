@@ -1,6 +1,6 @@
 {
   "name": "imust",
-  "version": "0.0.1-beta.4",
+  "version": "0.0.1-beta.6",
   "description": "a command line tool for developers",
   "main": "./lib/index.js",
   "bin": {
