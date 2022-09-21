@@ -7,12 +7,13 @@ export const decorateConnectToDbCommand = (command: Command) => {
     .description('Connect to a database within a Kubernetes cluster')
     .argument('<namespace>', 'The namespace that has access to the database')
     .option(
-      '--secret-with-db-connection-details',
-      'The name of the secret with the database connection details'
+      '--db-secret <name>',
+      'The name of the secret with the database connection details', 'dps-rds-instance-output'
     )
     .option(
-      '--secret-with-db-address',
-      'The name of the secret with the database address'
+      '--db-secret-address <name>',
+      'The name of the secret with the database address',
+    'rds_instance_address'
     )
     .action(runScript(config.scripts.connectToDb))
 
@@ -24,8 +25,8 @@ export const runScript =
     const script = scriptServiceBuilder(scriptFileLocation)
     script.setArgsIfPresent([
       namespace,
-      options?.secretWithDbConnectionDetails,
-      options?.secretWithDbAddress,
+      options?.dbSecret,
+      options?.dbSecretAddress,
     ])
     script.execute()
     script.logConsoleData()
