@@ -1,19 +1,19 @@
 import * as childProcessModule from 'child_process'
 import { ScriptService, scriptServiceBuilder } from './scriptService'
 import config from '../config'
-import { mocked, MockedObjectDeep } from 'jest-mock'
+import { mocked, Mocked } from 'jest-mock'
 
 jest.mock('../config')
 jest.mock('child_process')
 
 let mockDirectoryLocation: string
 let mockScriptName: string
-let mockChildProcess: MockedObjectDeep<childProcessModule.ChildProcess>
+let mockChildProcess: Mocked<childProcessModule.ChildProcess>
 
 beforeEach(() => {
   mockDirectoryLocation = '/testUtils'
   mockScriptName = 'dummyScript.sh'
-  mockChildProcess = mocked(new childProcessModule.ChildProcess(), true)
+  mockChildProcess = mocked(new childProcessModule.ChildProcess(), {shallow: true})
 
   config.scripts.location = mockDirectoryLocation
   jest.spyOn(childProcessModule, 'spawn').mockReturnValueOnce(mockChildProcess)

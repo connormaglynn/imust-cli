@@ -1,7 +1,7 @@
 import { Command, createCommand } from 'commander'
 import * as connectToDb from './connect-to-db'
 import * as ScriptServiceModule from '../services/scriptService'
-import { MaybeMockedDeep, Mock, mocked } from 'jest-mock'
+import {Mocked, mocked, MockInstance} from 'jest-mock'
 
 jest.mock('../services/scriptService')
 jest.mock('../config', () => ({ scripts: { connectToDb: 'connect-to-db' } }))
@@ -52,12 +52,11 @@ describe('ConnectToDb', () => {
         // @ts-ignore
         expect(decoratedCommand.options[0]).toEqual(
           expect.objectContaining({
-            description:
-              'The name of the secret with the database connection details',
-            defaultValue: undefined,
-            required: false,
-            long: '--secret-with-db-connection-details',
-            flags: '--secret-with-db-connection-details',
+            description: 'The name of the secret with the database connection details',
+            defaultValue: 'dps-rds-instance-output',
+            required: true,
+            long: '--db-secret',
+            flags: '--db-secret <name>',
           })
         )
       })
@@ -67,10 +66,10 @@ describe('ConnectToDb', () => {
         expect(decoratedCommand.options[1]).toEqual(
           expect.objectContaining({
             description: 'The name of the secret with the database address',
-            defaultValue: undefined,
-            required: false,
-            long: '--secret-with-db-address',
-            flags: '--secret-with-db-address',
+            defaultValue: 'rds_instance_address',
+            required: true,
+            long: '--db-secret-address',
+            flags: '--db-secret-address <name>',
           })
         )
       })
@@ -96,16 +95,16 @@ describe('ConnectToDb', () => {
   })
 
   describe('runScript', () => {
-    let mockedScriptServiceModule: MaybeMockedDeep<typeof ScriptServiceModule>
-    let mockedScriptService: MaybeMockedDeep<any>
-    let mockedScriptServiceBuilder: Mock
+    let mockedScriptServiceModule: Mocked<typeof ScriptServiceModule>
+    let mockedScriptService: Mocked<any>
+    let mockedScriptServiceBuilder: MockInstance
 
     beforeEach(() => {
-      mockedScriptServiceModule = mocked(ScriptServiceModule, true)
+      mockedScriptServiceModule = mocked(ScriptServiceModule, {shallow: true})
 
       mockedScriptService = mocked(
         mockedScriptServiceModule.ScriptService,
-        true
+          {shallow: true}
       ).mockImplementation(
         // @ts-ignore
         () => {
@@ -121,7 +120,7 @@ describe('ConnectToDb', () => {
 
       mockedScriptServiceBuilder = mocked(
         mockedScriptServiceModule.scriptServiceBuilder,
-        true
+          {shallow: true}
       ).mockImplementation(
         // @ts-ignore
         () => {
@@ -130,8 +129,8 @@ describe('ConnectToDb', () => {
       )
 
       connectToDb.runScript('testingDir')('namespace', {
-        secretWithDbConnectionDetails: 'secret-with-db-connection-details',
-        secretWithDbAddress: 'secret-with-db-address',
+        dbSecret: 'db-secret',
+        dbSecretAddress: 'db-secret-address',
       })
     })
 
@@ -144,8 +143,8 @@ describe('ConnectToDb', () => {
       expect(mockedScriptService.setArgsIfPresent).toBeCalledTimes(1)
       expect(mockedScriptService.setArgsIfPresent).toBeCalledWith([
         'namespace',
-        'secret-with-db-connection-details',
-        'secret-with-db-address',
+        'db-secret',
+        'db-secret-address',
       ])
     })
 
