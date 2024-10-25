@@ -28,7 +28,12 @@ export class ScriptService {
   }
 
   public execute(): this {
-    this.childProcess = spawn(this.pathToScript, this.args)
+    this.childProcess = spawn(this.pathToScript, this.args, { stdio: 'inherit' })
+    process.on('SIGINT', () => {
+      console.log('Caught Ctrl-C. Sending SIGINT to child process...');
+      // Send `SIGINT` to the child process
+      this.childProcess.kill('SIGINT');
+    });
     return this
   }
 

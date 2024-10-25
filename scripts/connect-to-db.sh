@@ -19,8 +19,7 @@ WHITE='\033[1;37m'
 NC='\033[0m' # No Color
 
 # Check all parameters are passed in
-if [ $# -eq 0  ]
-then
+if [ $# -eq 0 ]; then
   echo $LINE
   echo "- Please call the script as 'connect-to-db {namespace} {secret with db connection details(defaults to [dps-rds-instance-output])} {[rds_instance_address]}'"
   echo $LINE
@@ -56,16 +55,15 @@ echo $LINE
 # Check if port-forwarding pod exists, create if not
 echo -e "${LIGHTGRAY}3. Create a port-forward-pod if one doesn't already exist in [ $NAMESPACE ]${NC}"
 PORT_FORWARD_POD=$(kubectl -n "$NAMESPACE" get pods | grep port-forward-pod)
-if [ -z "$PORT_FORWARD_POD" ]
-then
+if [ -z "$PORT_FORWARD_POD" ]; then
   echo "- No port-forward-pod - creating one in [ $NAMESPACE ]..."
   echo -e "$LIGHTBLUE"
   kubectl --namespace "$NAMESPACE" \
     run port-forward-pod \
-      --image=ministryofjustice/port-forward \
-      --env="REMOTE_HOST=$DB_ADDRESS" \
-      --env="REMOTE_PORT=5432" \
-      --env="LOCAL_PORT=5432"
+    --image=ministryofjustice/port-forward \
+    --env="REMOTE_HOST=$DB_ADDRESS" \
+    --env="REMOTE_PORT=5432" \
+    --env="LOCAL_PORT=5432"
   echo -e $NC
 else
   echo "- port-forward-pod already exists in [ $NAMESPACE ]. Continuing..."
@@ -85,8 +83,7 @@ echo $LINE
 # Connect to the port-forward-pod. Keep reconnecting (due to timeouts) until the user decides to stop re-connecting
 echo -e "${LIGHTGRAY}5. Connect to port-forward-pod in [ $NAMESPACE ]${NC}"
 condition=r
-while [ "$condition" = "r" ]
-do
+while [ "$condition" = "r" ]; do
   echo "- Connecting to port-forward-pod..."
   echo "- Press [ CTRL+C ] to manually exit the connection..."
   echo -e "$LIGHTBLUE"
@@ -106,4 +103,4 @@ kubectl -n "$NAMESPACE" get pods
 echo -e "$NC"
 echo $LINE
 
-exit 1
+exit 0
