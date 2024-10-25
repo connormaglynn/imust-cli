@@ -13,7 +13,7 @@ let mockChildProcess: Mocked<childProcessModule.ChildProcess>
 beforeEach(() => {
   mockDirectoryLocation = '/testUtils'
   mockScriptName = 'dummyScript.sh'
-  mockChildProcess = mocked(new childProcessModule.ChildProcess(), {shallow: true})
+  mockChildProcess = mocked(new childProcessModule.ChildProcess(), { shallow: true })
 
   config.scripts.location = mockDirectoryLocation
   jest.spyOn(childProcessModule, 'spawn').mockReturnValueOnce(mockChildProcess)
@@ -85,7 +85,8 @@ describe('scriptService', () => {
 
       expect(childProcessModule.spawn).toBeCalledWith(
         `${mockDirectoryLocation}/${mockScriptName}`,
-        undefined
+        undefined,
+        { "stdio": "inherit" }
       )
     })
 
@@ -96,13 +97,14 @@ describe('scriptService', () => {
 
       expect(childProcessModule.spawn).toBeCalledWith(
         `testDirName/testScriptName`,
-        ['arg1', 'arg2']
+        ['arg1', 'arg2'],
+        { "stdio": "inherit" }
       )
     })
   })
 
   // TODO add tests for logConsoleData
-  describe('logConsoleData', () => {})
+  describe('logConsoleData', () => { })
 })
 
 describe('scriptServiceBuilder', () => {
