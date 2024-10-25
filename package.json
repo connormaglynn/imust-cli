@@ -1,6 +1,6 @@
 {
   "name": "imust",
-  "version": "0.0.1-beta.7",
+  "version": "0.0.2",
   "description": "a command line tool for developers",
   "main": "./lib/index.js",
   "bin": {
@@ -26,14 +26,9 @@
   "sourceType": "module",
   "homepage": "https://github.com/connormaglynn/developer-cli#readme",
   "dependencies": {
-    "chalk": "^4.1.2",
-    "clear": "^0.1.0",
-    "commander": "^9.4.0",
-    "figlet": "^1.5.2",
-    "path": "^0.12.7"
+    "commander": "^9.4.0"
   },
   "devDependencies": {
-    "@types/clear": "^0.1.2",
     "@types/figlet": "^1.5.5",
     "@types/jest": "^29.0.3",
     "@types/node": "^18.7.18",
