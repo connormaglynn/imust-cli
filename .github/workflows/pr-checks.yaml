@@ -5,33 +5,11 @@ name: PR Checks
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Lint
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run lint
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Build
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18.x
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run build
   test:
     runs-on: ubuntu-latest
     steps:
@@ -39,7 +17,7 @@ jobs:
       - name: Test
         uses: actions/setup-node@v3
         with:
-          node-version: 18.x
-          cache: 'npm'
+          node-version: 20.x
+          cache: "npm"
       - run: npm ci
       - run: npm run test

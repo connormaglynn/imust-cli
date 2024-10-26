@@ -1,9 +1,9 @@
-import path from 'path'
+const path = require('path')
 
-export default {
+module.exports = {
   program: {
     name: 'IMust',
-    version: '0.0.3',
+    version: '0.1.0',
     description: 'A command line tool for developers',
   },
   scripts: {

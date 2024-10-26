@@ -1,33 +1,31 @@
-import config from '../config'
-import { ChildProcess, spawn } from 'child_process'
+const config = require('./config')
+const { spawn } = require('child_process')
 
-export class ScriptService {
-  public pathToScript: string
-  public childProcess: ChildProcess
-  public args: string[]
-
+class ScriptService {
   constructor(
-    public scriptName: string,
-    public directoryLocation: string = config.scripts.location
+    scriptName,
+    directoryLocation
   ) {
+    this.scriptName = scriptName
+    this.directoryLocation = directoryLocation || config.scripts.location
     this.setAbsolutePathToScript(directoryLocation, scriptName)
     return this
   }
 
-  public setAbsolutePathToScript(
-    directoryLocation: string,
-    scriptName: string
-  ): this {
+  setAbsolutePathToScript(
+    directoryLocation,
+    scriptName
+  ) {
     this.pathToScript = `${directoryLocation}/${scriptName}`
     return this
   }
 
-  public setArgsIfPresent(args: string[]): this {
+  setArgsIfPresent(args) {
     this.args = args.filter((arg) => arg !== undefined && arg !== null)
     return this
   }
 
-  public execute(): this {
+  execute() {
     this.childProcess = spawn(this.pathToScript, this.args, { stdio: 'inherit' })
     process.on('SIGINT', () => {
       console.log('Caught Ctrl-C. Sending SIGINT to child process...');
@@ -37,7 +35,7 @@ export class ScriptService {
     return this
   }
 
-  public logConsoleData(logger: Console = console) {
+  logConsoleData(logger = console) {
     // FIXME: workaround since optional chaining not working
     if (this.childProcess.stderr && this.childProcess.stdout) {
       this.childProcess.stderr.on('data', (data) => {
@@ -52,9 +50,13 @@ export class ScriptService {
   }
 }
 
-export const scriptServiceBuilder = (
-  scriptName: string,
-  directoryLocation: string = config.scripts.location
-): ScriptService => {
+const scriptServiceBuilder = (
+  scriptName,
+  directoryLocation = config.scripts.location
+) => {
   return new ScriptService(scriptName, directoryLocation)
+}
+
+module.exports = {
+  scriptServiceBuilder
 }
