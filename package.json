@@ -23,8 +23,5 @@
   "homepage": "https://github.com/connormaglynn/developer-cli#readme",
   "dependencies": {
     "commander": "^9.5.0"
-  },
-  "devDependencies": {
-    "jest": "^29.7.0"
   }
 }
