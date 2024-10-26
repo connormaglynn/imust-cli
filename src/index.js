@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-const config = require('./config')
 const { createCommand } = require('commander');
-const { scriptServiceBuilder } = require('./scriptService')
+const config = require('./config')
+const { spawn } = require('child_process')
 
 console.log(config.program.name)
 
@@ -22,14 +22,18 @@ createCommand()
       'rds_instance_address'
     )
     .action((namespace, options) => {
-      const script = scriptServiceBuilder(config.scripts.connectToDb)
-      script.setArgsIfPresent([
+      const args = [
         namespace,
         options?.dbSecret,
         options?.dbSecretAddress,
-      ])
-      script.execute()
-      script.logConsoleData()
+      ]
+      const argsIfSet = args.filter((arg) => arg !== undefined && arg !== null)
+
+      const childProcess = spawn(`${config.scripts.location}/${config.scripts.connectToDb}`, argsIfSet, { stdio: 'inherit' })
+      process.on('SIGINT', () => {
+        console.log('Caught Ctrl-C. Sending SIGINT to child process...');
+        childProcess.kill('SIGINT');
+      });
     })
   )
   .parse(process.argv)
